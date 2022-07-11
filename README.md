@@ -12,3 +12,7 @@
 로그인/로그아웃 - 윤영욱  
 크롤링 - 윤태식  
 댓글 - 윤상돈  
+
+### ERD  
+![erd](https://user-images.githubusercontent.com/94421127/178201980-459c10ad-98f0-44a8-84c5-a74a085d41ab.PNG)
+
