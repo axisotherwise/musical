@@ -1,2 +1,2 @@
-# musical
-musical
+# 뮤지컬 미니 프로젝트
+## 팀원
