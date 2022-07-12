@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://thelapssql:581ysg2315@cluster0.efos6wv.mongodb.net/Cluster0?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://thelapssql:musical@cluster0.efos6wv.mongodb.net/Cluster0?retryWrites=true&w=majority")
 db = client.musical
 
 SECRET = "musical"
@@ -30,20 +30,6 @@ def mainRender():
     return render_template("main.html", email = user["email"])
   except jwt.exceptions.DecodeError:
     return redirect("/?error=토큰 없음")
-
-@app.route("/test", methods = ["get"])
-def testRender():
-  return render_template("test.html")
-
-@app.route("/test", methods = ["post"])
-def test():
-  token = request.cookies.get("token")
-  try:
-    payload = jwt.decode(token, SECRET, algorithms = ["HS256"])
-    user = db.users.find_one({ "email": payload["email"] })
-    return jsonify({ "result": "success" })
-  except jwt.exceptions.DecodeError:
-    return jsonify({ "result": "fail" })
 
 @app.route("/auth/join", methods = ["post"])
 def authJoin():

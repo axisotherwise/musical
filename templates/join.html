@@ -37,7 +37,7 @@
       .then(res => {
         if (res.data.result === "exist") {
           flag = false;
-          return alert("이미 가입된 이메일입니다.")
+          alert("이미 가입된 이메일입니다.")
         };
         if (flag) return alert("사용해도 좋은 이메일입니다."); 
       })
