@@ -21,6 +21,19 @@ def indexRender():
 def joinRender():
   return render_template("join.html")
 
+# 토큰 있니?
+@app.route("/test")
+def testRender():
+  token = request.cookies.get("token")
+  try:
+    payload = jwt.decode(token, SECRET, algorithms = ["HS256"])
+    user = db.users.find_one({ "email": payload["email"] })
+    print(user["email"])
+    return jsonify({ "result": "success" })
+  except jwt.exceptions.DecodeError:
+    return jsonify({ "result": "fail" })
+#
+
 @app.route("/main")
 def mainRender():
   token = request.cookies.get("token")
