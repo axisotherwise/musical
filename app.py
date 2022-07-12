@@ -23,13 +23,27 @@ def joinRender():
 
 @app.route("/main")
 def mainRender():
-  return render_template("main.html")
+  token = request.cookies.get("token")
+  try:
+    payload = jwt.decode(token, SECRET, algorithms = ["HS256"])
+    user = db.users.find_one({ "email": payload["email"] })
+    return render_template("main.html", email = user["email"])
+  except jwt.exceptions.DecodeError:
+    return redirect("/?error=토큰 없음")
 
-@app.route("/test")
+@app.route("/test", methods = ["get"])
 def testRender():
-  token = request.args.get("token")
-  print(token)
   return render_template("test.html")
+
+@app.route("/test", methods = ["post"])
+def test():
+  token = request.cookies.get("token")
+  try:
+    payload = jwt.decode(token, SECRET, algorithms = ["HS256"])
+    user = db.users.find_one({ "email": payload["email"] })
+    return jsonify({ "result": "success" })
+  except jwt.exceptions.DecodeError:
+    return jsonify({ "result": "fail" })
 
 @app.route("/auth/join", methods = ["post"])
 def authJoin():
@@ -41,20 +55,24 @@ def authJoin():
 
 @app.route("/auth/login", methods = ["post"])
 def authLogin():
-  reqEmail = request.form["email"]
-  reqPassword = request.form["password"]
+  reqEmail = request.get_json()["email"]
+  reqPassword = request.get_json()["password"]
   hash = hashlib.sha256(reqPassword.encode("utf-8")).hexdigest()
   user = db.users.find_one({ "email": reqEmail, "password": hash })
-  if user is not None:
+  if user:
     payload = {
       "email": reqEmail,
     }
-    token  = jwt.encode(payload, SECRET, algorithm = "HS256" )
-    print("here")
-    jsonify({ "result": "success", "token": token })
-    return redirect("/main")
+    token = jwt.encode(payload, SECRET, algorithm = "HS256" )
+    return jsonify({ "result": "success", "token": token })
   else:
-    return jsonify({ "result": "fail", "message": "비번 불일치" })
+    return jsonify({ "result": "success", "message": "비번 불일치"})
+
+@app.route("/auth/logout", methods = ["get"])
+def authLogout():
+  resp = make_response(redirect("/"))
+  resp.delete_cookie("token")
+  return resp
 
 @app.route("/auth/check", methods  = ["post"])
 def authCheck():

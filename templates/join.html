@@ -28,6 +28,7 @@
   const $password = document.querySelector(".password");
   
   let flag = true;
+  
   $check.addEventListener("click", e => {
     const req = axios.post("/auth/check", {
       email: $email.value,

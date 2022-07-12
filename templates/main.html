@@ -7,6 +7,33 @@
   <title>메인</title>
 </head>
 <body>
-  
+  {{ email }}
+  <button class="logout">Logout</button>
+  <button style="display: none;">submit</button>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const $submit = document.querySelector("button");
+  const $logout = document.querySelector(".logout");
+
+  $logout.addEventListener("click", e => {
+    const req = axios.get("/auth/logout")
+    req.then(() => location.href = "/");
+  });
+  $submit.addEventListener("click", e => {
+    const token = document.cookie;
+    const req = axios.post("/test", {
+      name: "윤승근",
+    }, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    req
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.error(err));
+  });
+</script>
 </body>
 </html>
