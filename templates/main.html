@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+    ></script>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<style>
+    body {
+        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url("https://p4.wallpaperbetter.com/wallpaper/481/545/249/metal-the-dark-background-texture-wallpaper-preview.jpg");
+        background-color: #595656;
+
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+
+        color: white;
+
+    }
+    header {
+        padding: 20px 40px;
+        height: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eaeaea;
+        background-color: #5d4c52;
+    }
+
+    header .title {
+        font-size: 30px;
+    }
+
+    header > .member {
+        display: flex;
+    }
+
+    header > .member div {
+        width: 80px;
+        height: 40px;
+    }
+
+
+    header > .member button {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    header > .member > .login {
+        margin-right: 20px;
+    }
+
+    .mypic {
+        width: 100%;
+        max-width: 1200px;
+        height: 300px;
+        margin: auto;
+
+        background-image: linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.5),
+                rgba(0, 0, 0, 0.5)
+        ),
+        url("https://t1.daumcdn.net/cfile/tistory/99CEC6465F82EE1717");
+        background-position: center;
+        background-size: cover;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        color: white;
+    }
+
+    .mycards {
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+        margin-top: 20px;
+        color: black;
+    }
+
+    /*    카드에 바디 수정해보기*/
+</style>
+<script>
+    $(document).ready(function () {
+        show_musical();
+    });
+
+    function show_musical() {
+        $.ajax({
+            type: "GET",
+            url: "/main",
+            data: {},
+            success: function (response) {
+                console.log(response);
+            },
+        });
+    }
+</script>
+<body>
+<header>
+<div class="title">윤씨네 뮤지컬</div>
+<div class="member">
+    <div class="login">
+        <div class="idtxt" id="idtxt">{{ email }}</div>
+    </div>
+    <div class='logout'>
+        <button >로그아웃</button>
+    </div>
+    <div class="register">
+        <button >회원가입</button>
+    </div>
+</div>
+</header>
+<div class="mypic"></div>
+<div class="mycards">
+    <div id="card_box" class="row row-cols-1 row-cols-md-4 g-4">
+        {% for musical in musicals %}
+        <div class="col">
+            <div class="card h-100">
+                <img
+                        src="{{ musical.img }}"
+                        class="card-img-top"
+                        alt="..."
+                        style="height: 22rem"
+                />
+                <div class="card-body">
+                    <h5 class="card-title">{{ musical.title }}</h5>
+                    <p class="card-text">{{ musical.date }}</p>
+                    <p class="card-text">{{ musical.place }}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

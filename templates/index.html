@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+</head>
+<body>
+  <h2>로그인</h2>
+  <div>
+      <div>
+        Email  <input type="text" name="email" class="email">
+      </div>
+      <div>
+        Password  <input type="password" name="password" class="password">
+      </div>
+      <button>Login</button>
+      <a href="/join">회원가입</a>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const $email = document.querySelector(".email");
+  const $password = document.querySelector(".password");
+  const $btn = document.querySelector("button");
+
+  $btn.addEventListener("click", e => {
+    const req = axios.post("/auth/login", {
+      email: $email.value,
+      password: $password.value,
+    });
+    req
+      .then(res => {
+        const token = res.data.token;
+        axios.defaults.headers.common["Authorization"] = token;
+        document.cookie = `token=${token}`;
+        location.href = "/main";
+      })
+      .catch(err => console.error(err))
+  });
+</script>
+</body>
+</html>
