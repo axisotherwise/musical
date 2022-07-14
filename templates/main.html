@@ -38,7 +38,7 @@
 </head>
 <style>
     body {
-        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url("https://p4.wallpaperbetter.com/wallpaper/481/545/249/metal-the-dark-background-texture-wallpaper-preview.jpg");
+        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://p4.wallpaperbetter.com/wallpaper/481/545/249/metal-the-dark-background-texture-wallpaper-preview.jpg");
         background-color: #595656;
 
 
@@ -51,6 +51,7 @@
         color: white;
 
     }
+
     header {
         padding: 20px 40px;
         height: 80px;
@@ -131,25 +132,32 @@
             url: "/main",
             data: {},
             success: function (response) {
-                console.log(response);
+            },
+        });
+    }
+
+    function logout() {
+        $.ajax({
+            type: "GET",
+            url: "/auth/logout",
+            data: {},
+            success: function (response) {
+                window.location.reload()
             },
         });
     }
 </script>
 <body>
 <header>
-<div class="title">윤씨네 뮤지컬</div>
-<div class="member">
-    <div class="login">
-        <div class="idtxt" id="idtxt">{{ id }}</div>
+    <div class="title">윤씨네 뮤지컬</div>
+    <div class="member">
+        <div class="login">
+            <div class="idtxt" id="idtxt">{{ id }}</div>
+        </div>
+        <div class='logout'>
+            <button onclick="logout()">로그아웃</button>
+        </div>
     </div>
-    <div class='logout'>
-        <button >로그아웃</button>
-    </div>
-    <div class="register">
-        <button >회원가입</button>
-    </div>
-</div>
 </header>
 <div class="mypic"></div>
 <div class="mycards">
