@@ -18,26 +18,33 @@
       <button>Login</button>
       <a href="/join">회원가입</a>
   </div>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
   const $email = document.querySelector(".email");
   const $password = document.querySelector(".password");
   const $btn = document.querySelector("button");
   
-  $btn.addEventListener("click", e => {
-    const req = axios.post("/auth/login", {
-      email: $email.value,
-      password: $password.value,
-    });
-    req
-      .then(res => {
-        const token = res.data.token;
-        axios.defaults.headers.common["Authorization"] = token;
-        document.cookie = `token=${token}`;
-        location.href = "/main";
-      })
-      .catch(err => console.error(err))
+  $btn.addEventListener("click", async function(e) {
+    try {
+      const req = await fetch("/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: $email.value,
+          password: $password.value,
+        }),
+      });
+      const res = await req.json()
+      console.log(res);
+      if (res.result === "fail") return alert("실패");
+      document.cookie = `token=${res.token}`;
+      location.href = "/main";
+    } catch (err) {
+      console.error(err);
+    }
   });
+
 </script>
 </body>
 </html>
