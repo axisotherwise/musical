@@ -65,7 +65,7 @@ def authLogin():
       "email": reqEmail,
     }
     token = jwt.encode(payload, SECRET, algorithm = "HS256" )
-    return jsonify({ "result": "success", "token": token })
+    return make_response(jsonify({ "result": "success", "token": token }), 200)
   else:
     return jsonify({ "result": "success", "message": "비번 불일치"})
 
@@ -86,5 +86,5 @@ def authCheck():
     print("없습니다.")
     return make_response(jsonify({ "result": "success" }), 200)
 
-if __name__ == "__main__":
-  app.run(debug = True)
+if __name__ == '__main__':
+    app.run('0.0.0.0', port=5000, debug=True)

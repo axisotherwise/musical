@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
+            rel="stylesheet"
+    />
+
+    <style>
+        body {
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("https://p4.wallpaperbetter.com/wallpaper/481/545/249/metal-the-dark-background-texture-wallpaper-preview.jpg");
+            background-color: #595656;
+
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+
+            color: white;
+
+        }
+
+        .title-font {
+            font-size: 24px;
+        }
+
+        .head {
+            width: 1500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 50px auto;
+        }
+
+        .section {
+            width: 50%;
+            margin: 0px auto;
+        }
+
+        header {
+
+            width: 100%;
+            padding: 20px 40px;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        header .title {
+            font-size: 30px;
+        }
+
+        header > .member {
+            display: flex;
+        }
+
+        header > .member div {
+            width: 300px;
+            height: 40px;
+        }
+
+
+        header > .member button {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        header > .member > .login {
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+
+    </style>
+    <script>
+
+
+        function post() {
+            let comment = $("#textarea-post").val()
+            $.ajax({
+                type: "POST",
+                url: "/api/posting",
+                data: {
+                    comment_give: comment,
+                    musical_title_give: `{{ musical.title }}`
+
+                    {#    아이디는 서버에서보냄#}
+                },
+                success: function (response) {
+                    $("#modal-post").removeClass("is-active")
+                    alert(response['msg'])
+                    window.location.reload()
+
+
+                }
+            })
+        }
+
+
+    </script>
+</head>
+
+<body>
+<header style="background-color: black">
+
+    <div class="title" style="color: white">윤씨네 뮤지컬</div>
+    <div class="member">
+        <div class="login">
+            <div class="idtxt" id="idtxt">{{ email }}님 반갑습니다</div>
+        </div>
+        <div class='logout'>
+            <button onclick="sack()">로그아웃</button>
+        </div>
+        <div class="register">
+            <button onclick="window.location='/signup'">회원가입</button>
+        </div>
+    </div>
+
+</header>
+
+<div class="head">
+    <div class="card" style="width: 400px; height: 800px">
+        <img src="{{ musical.img }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h1 class="title-font">{{ musical.title }}</h1>
+            <p class="card-text">
+            <dl class="row">
+                <dt class="col-sm-3">출연진</dt>
+                <dd class="col-sm-9">{{ listde.출연진 }}</dd>
+
+                <dt class="col-sm-3">제작진</dt>
+                <dd class="col-sm-9">{{ listde.제작진 }}</dd>
+
+            </dl>
+            </p>
+        </div>
+    </div>
+{#    <div class="poster">#}
+{#        <img src="{{ musical.img }}" class="img-fluid" alt="...">#}
+{#    </div>#}
+
+{#    <div class="lead">#}
+{#        <h1 class="title-font">{{ musical.title }}</h1>#}
+{##}
+{#        <dl class="row">#}
+{#            <dt class="col-sm-3">출연진</dt>#}
+{#            <dd class="col-sm-9">{{ listde.출연진 }}</dd>#}
+{##}
+{#            <dt class="col-sm-3">원작자</dt>#}
+{#            <dd class="col-sm-9">{{ listde.제작진 }}</dd>#}
+{##}
+{#        </dl>#}
+{#    </div>#}
+
+</div>
+
+<section class="section">
+    <article class="media">
+        <div class="media-content">
+            <div class="field">
+                <p class="control">
+                    <input id="input-post" class="input is-rounded" placeholder="이 뮤지컬은?"
+                           onclick='$("#modal-post").addClass("is-active")'></p>
+            </div>
+        </div>
+    </article>
+    <div class="modal" id="modal-post">
+        <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
+        <div class="modal-content">
+            <div class="box">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="field">
+                            <p class="control">
+                                        <textarea id="textarea-post" class="textarea"
+                                                  placeholder="무슨 생각을 하고 계신가요?"></textarea>
+                            </p>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <a class="button is-sparta" onclick="post()">포스팅하기</a>
+                                </div>
+                                <div class="level-item">
+                                    <a class="button is-sparta is-outlined"
+                                       onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"
+                onclick='$("#modal-post").removeClass("is-active")'></button>
+    </div>
+</section>
+<section class="section">
+    {% for comment in comments %}
+        <div id="post-box" class="container">
+            <div class="box">
+                <article class="media">
+                    <div style="margin-bottom: 10px" class="media-content">
+                        <div id="cmt-box" class="content">
+                            <p>
+                                <strong>{{ comment.username }}</strong>
+                                <br>
+                                {{ comment.comment }}
+                            </p>
+                        </div>
+
+                    </div>
+                </article>
+            </div>
+
+        </div>
+    {% endfor %}
+</section>
+
+
+</body>
+
+</html>
